@@ -22,7 +22,6 @@ leader = ''
 leader_crashed = ''
 network_changed = False
 replica_crashed = ''
-client_joined = False
 client_quit = False
 new_server = False
 

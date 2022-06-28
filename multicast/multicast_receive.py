@@ -53,9 +53,8 @@ def start_receiver():
                 case utils.RequestType.CLIENT_JOIN.value:
                     print(f'[CLIENT]: {address} - {message.received_name} wants to join')
                     # answer Chat Client with Server Leader address
-                    message = pickle.dumps([utils.leader, utils.CLIENT_LIST])
+                    message = pickle.dumps([utils.leader])
                     multicast_socket.sendto(message, address)
-                    utils.client_joined = True
 
                 case utils.RequestType.CLIENT_QUIT.value:
                     print(f'[CLIENT]: {address} - {message.received_name} quit chatroom')

@@ -14,8 +14,8 @@ broadcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 broadcast_socket.bind((utils.get_host_ip(), utils.SERVER_PORT))
 
 def start_broadcast_listener():
-    print(f'[SERVER] started on IP: {utils.get_host_ip()} on PORT: {utils.SERVER_PORT}')
-    print('[SERVER] waiting for participants...')
+    print(f'[SERVER] - started on IP: {utils.get_host_ip()} on PORT: {utils.SERVER_PORT}')
+    print('[SERVER] - waiting for participants...')
 
     while True:
         data, addr = broadcast_socket.recvfrom(1024)

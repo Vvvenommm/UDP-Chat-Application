@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
             s.bind(('', port))
 
-            message = pickle.dumps(['JOIN', name, '', utils.CLIENT_LIST])
+            message = pickle.dumps(['JOIN', name, ''])
             s.sendto(message, leader_address)
         # if there is no Server available, exit the script
         else:

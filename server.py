@@ -18,8 +18,6 @@ def new_thread(target, args):
     t.start()
 
 if __name__ == '__main__':
-
-    print('[STARTING SERVER]')
     new_thread(broadcast_listener.start_broadcast_listener, ())
 
     # Start Multicast Sender, um zu überprüfen, ob es einen Receiver gibt
@@ -28,7 +26,7 @@ if __name__ == '__main__':
     if not receiver_exists:
         utils.SERVER_LIST.append(utils.myIP)
         utils.leader = utils.myIP
-        print(f'[SERVER LEADER]: {utils.leader}')
+        print(f'[SERVER] - LEADER]: {utils.leader}')
 
     else:
         print(f'[LEADER ALREADY EXISTS] - UPDATING...')
@@ -54,10 +52,6 @@ if __name__ == '__main__':
             if utils.leader == utils.myIP and utils.new_server:
                 utils.new_server = False
                 print_participants_details()
-
-            if utils.client_joined:
-                utils.client_joined = False
-                print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
 
             if utils.client_quit:
                 utils.client_quit = False

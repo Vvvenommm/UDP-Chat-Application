@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27906531-64c1-42a0-a0c8-7070b8961b9d" name="Changes" comment="" />
+    <list default="true" id="27906531-64c1-42a0-a0c8-7070b8961b9d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/broadcast/broadcast_listener.py" beforeDir="false" afterPath="$PROJECT_DIR$/broadcast/broadcast_listener.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multicast/multicast_receive.py" beforeDir="false" afterPath="$PROJECT_DIR$/multicast/multicast_receive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2BAVJn77IURBpKmCElYT6xXkUjg" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -67,7 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1656348806787</updated>
       <workItem from="1656348811526" duration="12000" />
-      <workItem from="1656348864630" duration="41157000" />
+      <workItem from="1656348864630" duration="42786000" />
     </task>
     <servers />
   </component>
