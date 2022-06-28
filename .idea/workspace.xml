@@ -6,7 +6,8 @@
       <change beforePath="$PROJECT_DIR$/broadcast/broadcast_listener.py" beforeDir="false" afterPath="$PROJECT_DIR$/broadcast/broadcast_listener.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multicast/multicast_receive.py" beforeDir="false" afterPath="$PROJECT_DIR$/multicast/multicast_receive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/heartbeat.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/heartbeat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/leader_election.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/leader_election.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,12 +79,23 @@
       <option name="presentableId" value="Default" />
       <updated>1656348806787</updated>
       <workItem from="1656348811526" duration="12000" />
-      <workItem from="1656348864630" duration="43223000" />
+      <workItem from="1656348864630" duration="45863000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/UDP_Chat_Application$client.coverage" NAME="client Coverage Results" MODIFIED="1656437970409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

@@ -25,16 +25,17 @@ if __name__ == '__main__':
 
     # Start Multicast Receiver, um Nachrichten empfangen zu können
     utils.start_thread(multicast_receive.start_receiver, ())
-    #utils.start_thread(heartbeat.start_heartbeat, ())
+    # Start Heartbeat for getting neighbours
+    utils.start_thread(heartbeat.start_heartbeat, ())
 
     while True:
         try:
 
-            if utils.leader == utils.myIP and utils.network_changed:
+            if utils.leader == utils.myIP and utils.network_changed or utils.replica_crashed:
                 multicast_sender.start_sender()
-                #utils.leader_crashed = False
+                utils.leader_crashed = False
                 utils.network_changed = False
-                #utils.replica_crashed = ''
+                utils.replica_crashed = ''
                 print_participants_details()
 
             if utils.leader != utils.myIP and utils.network_changed:
@@ -58,6 +59,5 @@ if __name__ == '__main__':
 #TODO: Clients verbinden und Chatten -> Done -> Name des Clients auch mitgeben -> Done, done
 
 
-#TODO: Heartbeat einbauen
-#TODO: Server crash testen und einbauen
+#TODO: Heartbeat einbauen -> gehört zusammen: #TODO: Server crash testen und einbauen
 #TODO: Clients nach Server Crash mit neuem Server verbinden

@@ -34,10 +34,3 @@ def start_leader_election(server_list, leader_server):
         return neighbour
     else:
         None
-
-def send_leader_message (server_list):
-    ring = form_ring(server_list)
-    message = pickle.dumps([utils.leader])
-    multicast_socket = multicast_sender.multicast_socket
-    multicast_socket.sendto(message, utils.MULTICAST_GROUP_ADDRESS)
-    return ring
