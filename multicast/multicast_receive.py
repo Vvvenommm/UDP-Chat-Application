@@ -1,12 +1,10 @@
 import socket
 import struct
 import pickle
-
 from resources import utils
 
 # Create the socket
 multicast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
 
 #source: https://pymotw.com/3/socket/multicast.html
 def start_receiver():
@@ -29,6 +27,7 @@ def start_receiver():
             message = utils.handle_pickle(data)
 
             #source: https://learnpython.com/blog/python-match-case-statement/
+            #match case is a new functionality which came with python 3.10
             match message.request_type:
                 case utils.RequestType.SERVER_JOIN.value:
                     # when no server exists in the list -> first server
@@ -41,8 +40,6 @@ def start_receiver():
                     # server already exists -> 2nc e.g. Server is joining
                     # when leader received and current leader is empty (!= my host address) -> (utils.leader is at this stagee empty)
                     elif message.received_leader and utils.leader != utils.myIP:
-                        # used from Server Replicas to update the own variables or if a Server Replica crashed
-                        # elif pickle.loads(message)[1] and utils.leader != utils.myIP or pickle.loads(message)[3]:
                         utils.SERVER_LIST = message.received_server_list
                         utils.CLIENT_LIST = message.received_client_list
                         utils.leader = message.received_leader
@@ -59,19 +56,6 @@ def start_receiver():
                 case utils.RequestType.CLIENT_QUIT.value:
                     print(f'[CLIENT]: {address} - {message.received_name} quit chatroom')
                     utils.client_quit = True
-
-
-            #if len(message[0]) == 0:
-
-
-            # used from Server Replicas to update the own variables or if a Server Replica crashed
-            #elif pickle.loads(message)[1] and utils.leader != utils.myIP or pickle.loads(message)[3]:
-            #    utils.SERVER_LIST = pickle.loads(message)[0]
-            #    utils.leader = pickle.loads(message)[1]
-            #    utils.CLIENT_LIST = pickle.loads(message)[4]
-
-            #    multicast_socket.sendto(b'ack', address)
-            #    utils.network_changed = True
 
         except KeyboardInterrupt:
             print('close')

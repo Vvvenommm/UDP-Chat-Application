@@ -1,5 +1,3 @@
-import socket
-import threading
 import sys
 
 from broadcast import broadcast_listener
@@ -11,14 +9,8 @@ def print_participants_details():
     print(f'[SERVER LIST]: {utils.SERVER_LIST} ==> CURRENT LEADER: {utils.leader}')
     print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
 
-# standardized for creating and starting Threads
-def new_thread(target, args):
-    t = threading.Thread(target=target, args=args)
-    t.daemon = True
-    t.start()
-
 if __name__ == '__main__':
-    new_thread(broadcast_listener.start_broadcast_listener, ())
+    utils.start_thread(broadcast_listener.start_broadcast_listener, ())
 
     # Start Multicast Sender, um zu überprüfen, ob es einen Receiver gibt
     receiver_exists = multicast_sender.start_sender()
@@ -32,8 +24,8 @@ if __name__ == '__main__':
         print(f'[LEADER ALREADY EXISTS] - UPDATING...')
 
     # Start Multicast Receiver, um Nachrichten empfangen zu können
-    new_thread(multicast_receive.start_receiver, ())
-    #new_thread(heartbeat.start_heartbeat, ())
+    utils.start_thread(multicast_receive.start_receiver, ())
+    #utils.start_thread(heartbeat.start_heartbeat, ())
 
     while True:
         try:

@@ -1,6 +1,4 @@
-import pickle
 import socket
-
 from resources import utils
 
 # Create a UDP socket
@@ -36,6 +34,8 @@ def start_broadcast_listener():
 
 
 def handle_incoming_messages(message=None, addr=None):
+    # source: https://learnpython.com/blog/python-match-case-statement/
+    # match case is a new functionality which came with python 3.10
     match message.chat_type:
         case 'JOIN':
             print(f'[CLIENT]: {addr} - {message.client_name} is connected with chatroom')

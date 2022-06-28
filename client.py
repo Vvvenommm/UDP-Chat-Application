@@ -2,7 +2,6 @@ import socket
 import random
 import pickle
 import os
-import threading
 
 from resources import utils
 from multicast import multicast_sender
@@ -11,6 +10,7 @@ name = input('To enter chatroom please write your name: ')
 
 port = random.randint(6000, 10000)
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
 
 def send_messages():
     while True:
@@ -23,6 +23,7 @@ def send_messages():
         except Exception as e:
             print(e)
             break
+
 
 def receive_messages():
     while True:
@@ -46,27 +47,29 @@ def receive_messages():
             break
 
 
+def establish_connection():
+    server_leader_found = multicast_sender.join_multicast_group(name)
+
+    if server_leader_found:
+        print(f'[SERVER] - LEADER: {utils.leader}')
+        leader_address = (utils.leader, utils.SERVER_PORT)
+
+        s.bind(('', port))
+
+        message = pickle.dumps(['JOIN', name, ''])
+        s.sendto(message, leader_address)
+    # if there is no Server available, exit the script
+    else:
+        print("Please try to join later again.")
+        os._exit(0)
+
+
 if __name__ == '__main__':
     try:
-        server_leader_found = multicast_sender.join_multicast_group(name)
+        establish_connection()
 
-        if server_leader_found:
-            print(f'[SERVER] - LEADER: {utils.leader}')
-            leader_address = (utils.leader, utils.SERVER_PORT)
-
-            s.bind(('', port))
-
-            message = pickle.dumps(['JOIN', name, ''])
-            s.sendto(message, leader_address)
-        # if there is no Server available, exit the script
-        else:
-            print("Please try to join later again.")
-            os._exit(0)
-
-        #establish_connection()
-
-        threading.Thread(target=send_messages).start()
-        threading.Thread(target=receive_messages).start()
+        utils.start_thread(send_messages, ())
+        utils.start_thread(receive_messages, ())
 
         while True:
             pass
