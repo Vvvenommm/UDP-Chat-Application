@@ -15,15 +15,18 @@ if __name__ == '__main__':
     utils.start_thread(broadcast_listener.start_broadcast_listener, ())
 
     # Start Multicast Sender, um zu überprüfen, ob es einen Receiver gibt
-    multicast_sender.start_sender()
+    receiver_exists = multicast_sender.start_sender()
+    if not receiver_exists:
+        utils.SERVER_LIST.append(utils.myIP)
+        utils.leader = utils.myIP
 
-    utils.SERVER_LIST.append(utils.myIP)
-    print(print_participants_details())
-
-    leader_election.start_election()
+    else:
+        print('[LEADER ALREADY EXISTS] - UPDATING...')
 
     # Start Multicast Receiver, um Nachrichten empfangen zu können
     utils.start_thread(multicast_receive.start_receiver, ())
+
+    leader_election.start_election()
 
     # Start Heartbeat for getting neighbours
     utils.start_thread(heartbeat.start_heartbeat, ())
