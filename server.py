@@ -1,8 +1,10 @@
 import sys
-
-from broadcast import broadcast_listener
-from multicast import multicast_sender, multicast_receive
-from resources import utils, heartbeat
+import broadcast_listener
+import multicast_sender
+import multicast_receive
+import utils
+import heartbeat
+import leader_election
 
 # terminal printer for info
 def print_participants_details():
@@ -17,14 +19,19 @@ if __name__ == '__main__':
 
     if not receiver_exists:
         utils.SERVER_LIST.append(utils.myIP)
-        utils.leader = utils.myIP
-        print(f'[SERVER] - LEADER]: {utils.leader}')
 
     else:
+        # leader_election.start_election(True)
         print(f'[LEADER ALREADY EXISTS] - UPDATING...')
+
+
+    print_participants_details()
+    leader_election.start_election()
 
     # Start Multicast Receiver, um Nachrichten empfangen zu können
     utils.start_thread(multicast_receive.start_receiver, ())
+
+
     # Start Heartbeat for getting neighbours
     utils.start_thread(heartbeat.start_heartbeat, ())
 
