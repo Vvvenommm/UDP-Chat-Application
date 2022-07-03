@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     else:
         print('[LEADER ALREADY EXISTS] - UPDATING...')
-        print('Leader_election hast started...')
+        print('Leader_election hast started 0...')
         leader_election.start_election()
         # if utils.leader == utils.myIP:
         # utils.SERVER_LIST.append(utils.myIP)
@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
             if utils.leader == utils.myIP and utils.network_changed or utils.replica_crashed:
                 multicast_sender.start_sender()
-                print('Leader_election hast started...')
+                print('Leader_election hast started 1...')
                 leader_election.start_election()
                 utils.leader_crashed = False
                 utils.network_changed = False
@@ -48,13 +48,13 @@ if __name__ == '__main__':
 
             if utils.leader != utils.myIP and utils.network_changed:
                 utils.network_changed = False
-                print('Leader_election hast started...')
+                print('Leader_election hast started 2...')
                 leader_election.start_election()
                 print_participants_details()
 
             if utils.leader == utils.myIP and utils.new_server:
                 utils.new_server = False
-                print('Leader_election hast started...')
+                print('Leader_election hast started 3...')
                 leader_election.start_election()
                 print_participants_details()
 

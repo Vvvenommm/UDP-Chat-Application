@@ -3,6 +3,11 @@ import socket
 import pickle
 import utils
 
+ring_port = 10100
+ring_ip = utils.get_host_ip()
+
+ring_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+ring_socket.bind(('', ring_port))
 
 def form_ring(members):
     sorted_binary_ring = sorted([socket.inet_aton(member) for member in members])
@@ -26,15 +31,8 @@ def get_neighbour(members, current_member_ip, direction = 'left'):
     else:
         return None
 
-
-ring_port = 1001
-ring_ip = '127.0.0.1'
-
-ring_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-ring_socket.bind(('', ring_port))
-
-
 def start_election():
+    print(f'Server-List {utils.SERVER_LIST}')
     ring = form_ring(utils.SERVER_LIST)
     print(f'Ring participants: {ring}')
     print('Ring is up and running at {}:{}'.format(ring_ip, ring_port))
@@ -46,6 +44,8 @@ def start_election():
     else:
         print(f'My neighbour: {neighbour}')
         message = pickle.dumps([utils.myIP, False])
+        print(neighbour)
+        print(message)
         ring_socket.sendto(message, (neighbour, ring_port))
         print('Start-election message to neighbour was sent...')
 
