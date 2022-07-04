@@ -8,6 +8,12 @@ UNICODE = 'utf-8'
 # SERVER
 SERVER_PORT = 10000
 
+# HEARTBEAT
+HEARTBEAT_PORT = 10002
+
+# RING
+RING_PORT = 10003
+
 # MULTICAST
 MULTICAST_GROUP_IP = '224.3.29.71'
 MULTICAST_PORT = 10001
@@ -19,6 +25,8 @@ CLIENT_LIST = []
 
 # ATTRIBUTES
 leader = ''
+new_leader = ''
+neighbour = ''
 leader_crashed = ''
 network_changed = False
 replica_crashed = ''
