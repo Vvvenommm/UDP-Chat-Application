@@ -53,8 +53,8 @@ def start_leader_election(server_list, leader_server):
                         data, addr = ring_socket.recvfrom(1024)
                         if data:
                             print(f'DATA: {pickle.loads(data)}')
-                            received_messagee = pickle.loads(data)
-                            check_leader(received_messagee, (neighbour, ring_port))
+                            received_message = pickle.loads(data)
+                            check_leader(received_message, (neighbour, ring_port))
                     except Exception as e:
                         print(e)
                         break
@@ -71,9 +71,9 @@ def start_notleader_election():
                 data, addr = ring_socket.recvfrom(1024)
                 if data:
                     print(f'DATA: {pickle.loads(data)}')
-                    received_messagee = pickle.loads(data)
-                    start_leader_election(received_messagee[1], utils.myIP)
-                    utils.SERVER_LIST = received_messagee[1]
+                    received_message = pickle.loads(data)
+                    start_leader_election(received_message[1], utils.myIP)
+                    utils.SERVER_LIST = received_message[1]
             except Exception as e:
                 print(e)
                 break
