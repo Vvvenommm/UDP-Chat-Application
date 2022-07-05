@@ -1,0 +1,43 @@
+1) Wenn Nachbar gecrashed:
+	Aus SERVER_LIST entfernen
+	replica_server_crashed = True
+	neighbour-failed = True
+	network_changed = True
+
+> als Leader, nur ein Server (eigener Server): (server.py Zeile 41f.)
+	sich selbst zum Leader benennen
+	new_leader = myIP
+	Teilnehmerinfos drucken
+
+> als Leader, > ein Teilnehmer: (server.py Zeile 37ff.)
+	Multicast Sender starten
+	Leader-election starten mit Server_List und eigener IP-Adresse
+	< Liste sollte aktuell sein, da zuvor Leader war >
+	Teilnehmerinfos drucken
+	Heartbeat starten 
+
+
+2) Wenn Nachbar = Leader gecrashed:
+	leader-crashed = True
+	netword_chagned = True
+	neighbour_failed = True
+
+> kein Leader verfügbar, kein weiterer Server verfügbar: 
+	< hat aktuelle Liste, da nur wissen, wenn Leader gecrashed wird, wenn es eigener
+	Nachbar war. Bevor Leader_election aktuelle Server_liste erhalten -1 Server ok >
+
+	Multicast Sender starten
+	Leader-election starten mit Server_List und eigener IP-Adresse
+	Teilnehmerliste
+	Heartbeat starten 
+
+> kein Leader verfügbar, aber weitere Server verfügbar: (server.py Zeile 51ff.)
+	< hat aktuelle Liste, da nur wissen, wenn Leader gecrashed wird, wenn es eigener
+	Nachbar war. Bevor Leader_election aktuelle Server_liste erhalten -1 Server ok >
+
+	Multicast Sender starten
+	sich selbst zum Leader benennen
+	new_leader = myIP
+	Teilnehmerinfos drucken
+	
+	
