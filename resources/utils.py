@@ -1,6 +1,19 @@
 import socket
 import threading
-import enum
+import enum #zur Verwendung und Implementierung von Aufzählungen 
+"""
+BEISPIEL AUS INTERNET ZUM VERSTÄNDNIS
+from enum import Enum
+
+Names = Enum("Names", [("Waiz",8), ("Tom",5), ("Sara",7), ("Lee",6)])
+
+print(Names.Sara.value)
+print(Names.Waiz.name)
+
+AUSGABE:
+7
+Waiz
+"""
 import pickle
 
 UNICODE = 'utf-8'

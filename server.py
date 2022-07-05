@@ -5,24 +5,66 @@ from resources import utils, leader_election, heartbeat
 from broadcast import broadcast_listener
 
 # terminal printer for info
-def print_participants_details():
+def print_participants_details(): #Funktion, um über aktuelle Server, den Leader und die momentanen Clients zu informieren
     print(f'[SERVER LIST]: {utils.SERVER_LIST} ==> CURRENT LEADER: {utils.leader}')
     print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
 
+#start
 if __name__ == '__main__':
-    utils.start_thread(broadcast_listener.start_broadcast_listener, ())
+    utils.start_thread(broadcast_listener.start_broadcast_listener, ()) #Broadcast Listener wird mit neuem Thread gestartet
 
     # Start Multicast Sender, um zu überprüfen, ob es einen Receiver gibt
     receiver_exists = multicast_sender.start_sender()
-    if not receiver_exists:
-        utils.SERVER_LIST.append(utils.myIP)
-        utils.leader = utils.myIP
-        print(f'[SERVER] - LEADER]: {utils.leader}')
+    # 1. Nachricht wird vorbereitet. Enthält ???
+    # 2. Nachricht wird an die MULTICAST_GROUP_ADDRESS gesendet
+    # 3. Warten auf Nachrichten von allen Teilnehmern. Falls ja, wird _return True_ gemacht
+    # 4. Falls keine Antwort kommt: _return False_
 
-    else:
+    """
+    def start_sender():
+    sleep(1)
+
+    # Send data to the multicast group
+    message = pickle.dumps([utils.RequestType.SERVER_JOIN.value, utils.SERVER_LIST, utils.CLIENT_LIST, utils.leader, ''])
+    multicast_socket.sendto(message, utils.MULTICAST_GROUP_ADDRESS)
+
+    try:
+        # Look for responses from all recipients
+        multicast_socket.recvfrom(1024)
+        return True
+
+    except socket.timeout:
+        return False
+    """
+
+    if not receiver_exists: #Falls die vorherige Funktion False ausgibt:
+        utils.SERVER_LIST.append(utils.myIP) #Server fügt eigene Adresse an _SERVER_LIST_ an
+        utils.leader = utils.myIP #neuer Server ernennt sich selbst zum Leader
+        print(f'[SERVER] - LEADER]: {utils.leader}') #neuer Leader wird ausgegeben
+
+    else: #heißt vorherige Funktion gibt True aus:
         print('[LEADER ALREADY EXISTS] - UPDATING...')
         print('Leader_election hast started ...')
         leader_election.start_notleader_election()
+
+        """
+        def start_notleader_election():
+            while True:
+                if utils.new_leader != '':
+                    break
+                else:
+                    print('\nWaiting to receive election message...\n')
+                    try:
+                        data, addr = ring_socket.recvfrom(1024)
+                        if data:
+                            print(f'DATA: {pickle.loads(data)}')
+                            received_message = pickle.loads(data)
+                            start_leader_election(received_message[1], utils.myIP)
+                            utils.SERVER_LIST = received_message[1]
+                    except Exception as e:
+                        print(e)
+                        breaks
+            """
 
     # Start Multicast Receiver, um Nachrichten empfangen zu können
     utils.start_thread(multicast_receive.start_receiver, ())
