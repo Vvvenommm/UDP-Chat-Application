@@ -3,19 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="27906531-64c1-42a0-a0c8-7070b8961b9d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multicast/multicast_receive.py" beforeDir="false" afterPath="$PROJECT_DIR$/multicast/multicast_receive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/activate_this.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/broadcast_listener.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/client.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/heartbeat.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/leader_election.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/multicast_receive.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/multicast_sender.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/server.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_statee/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/heartbeat.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/heartbeat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/leader_election.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/leader_election.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,14 +24,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/mustafanail/Documents/Programmierung/UDP-Chat-Application"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/mustafanail/Documents/Programmierung/UDP-Chat-Application&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -155,7 +145,9 @@
       <option name="presentableId" value="Default" />
       <updated>1656348806787</updated>
       <workItem from="1656348811526" duration="12000" />
-      <workItem from="1656348864630" duration="71497000" />
+      <workItem from="1656348864630" duration="74519000" />
+      <workItem from="1657049540578" duration="983000" />
+      <workItem from="1657050539497" duration="3512000" />
     </task>
     <servers />
   </component>
@@ -193,7 +185,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server.py</url>
-          <line>27</line>
+          <line>69</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

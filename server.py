@@ -70,9 +70,10 @@ if __name__ == '__main__':
     utils.start_thread(multicast_receive.start_receiver, ())
 
     if utils.neighbour != '':
-        utils.start_thread(heartbeat.start_heartbeat_listener())
+        utils.start_thread(heartbeat.start_heartbeat_listener, ())
 
     while True:
+
         try:
 
             if utils.leader == utils.myIP and utils.network_changed or utils.replica_crashed:
@@ -84,7 +85,7 @@ if __name__ == '__main__':
                 utils.replica_crashed = ''
                 print_participants_details()
                 if utils.neighbour != '':
-                    utils.start_thread(heartbeat.start_heartbeat_listener())
+                    utils.start_thread(heartbeat.start_heartbeat_listener, ())
 
             if utils.leader != utils.myIP and utils.network_changed:
                 utils.network_changed = False
@@ -92,7 +93,7 @@ if __name__ == '__main__':
                 leader_election.start_leader_election(utils.SERVER_LIST, utils.leader)
                 print_participants_details()
                 if utils.neighbour != '':
-                    utils.start_thread(heartbeat.start_heartbeat_listener())
+                    utils.start_thread(heartbeat.start_heartbeat_listener, ())
 
             if utils.leader == utils.myIP and utils.new_server:
                 utils.new_server = False
@@ -100,7 +101,7 @@ if __name__ == '__main__':
                 leader_election.start_leader_election(utils.SERVER_LIST, utils.leader)
                 print_participants_details()
                 if utils.neighbour != '':
-                    utils.start_thread(heartbeat.start_heartbeat_listener())
+                    utils.start_thread(heartbeat.start_heartbeat_listener, ())
 
             if utils.client_quit:
                 utils.client_quit = False

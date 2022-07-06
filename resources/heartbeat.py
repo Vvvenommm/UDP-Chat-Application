@@ -1,7 +1,7 @@
 import socket
 import sys
 from time import sleep
-from resources import utils, leader_election
+from resources import utils
 
 
 def start_heartbeat_listener():
@@ -9,7 +9,7 @@ def start_heartbeat_listener():
     print('[HEARTBEAT] - waiting for SERVERs...')
     while True:
         neigbour_crash_count = 0
-        is_crashed = False
+
         # get own Server Neighbour by using Leader Election algorithm
         #host_address = (utils.neighbour, utils.SERVER_PORT)
         # only executed if a Neighbour is available to whom the Server can establish a connection
@@ -32,7 +32,7 @@ def start_heartbeat_listener():
                 try:
                     data, addr = heartbeat_socket.recvfrom(1024)
                     if data:
-                        sleep(1)
+                        sleep(4)
                         print(f'[HEARTBEAT] - Neighbour {utils.neighbour} response',
                               file=sys.stderr)
                         heartbeat_socket.sendto(b'PING', addr)
@@ -57,6 +57,7 @@ def start_heartbeat_listener():
                             utils.leader = utils.myIP
                             utils.network_changed = True
                             neighbour_failed = True
+                            heartbeat_socket.close()
 
                         # used if crashed Neighbour was a Server Replica
                         else:
@@ -64,9 +65,18 @@ def start_heartbeat_listener():
                                   file=sys.stderr)
                             utils.replica_crashed = True
                             neighbour_failed = True
+                            heartbeat_socket.close()
+
 
             print('Out')
             utils.neighbour = ''
+            print(f'SERVER_LIST: {utils.SERVER_LIST}')
+            print(f'CLIENT_LIST: {utils.CLIENT_LIST}')
+            print(f'LEADER: {utils.leader}')
+            print(f'MYIP: {utils.myIP}')
+            print(f'LEADER_CRASHED: {utils.leader_crashed}')
+            print(f'NETWORK_CHANGED: {utils.network_changed}')
+
 
 def test():
         sleep(3)

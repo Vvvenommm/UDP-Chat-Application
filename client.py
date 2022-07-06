@@ -3,6 +3,7 @@ import random
 import pickle #Umwandlung der Python-Objekthierarchie in einen Byte-Stream. Ein Objekt wird also quasi als bytes gespeichert und kann später wieder "entpackt" werden
 import os
 
+from time import sleep
 from resources import utils
 from multicast import multicast_sender
 
@@ -37,10 +38,10 @@ def receive_messages():
                 print("\nChat server currently not available."
                       "Please wait 3 seconds for reconnection with new server leader.") #Falls keine Daten ankommen: Server nicht erreichbar wird gedruckt !!Was, wenn einfach nichts geschrieben wird? Wird der Server nicht "zu schnell für tot erklärt"?
                 s.close() #Socket wird geschlossen
-                #sleep(3)
+                sleep(3)
 
                 # Start reconnecting to new server leader
-                #establish_connection()
+                establish_connection()
 
         except Exception as e:
             print(e)
