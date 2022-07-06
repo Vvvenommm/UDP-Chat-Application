@@ -80,6 +80,7 @@ def establish_connection():
     # if there is no Server available, exit the script
     else:
         print("[CLIENT] - Please try to join later again.")
+        s.close()
         os._exit(0)
 
 
@@ -99,6 +100,7 @@ if __name__ == '__main__':
         leader_server = (str(utils.leader), 10000) #Leader Server wird identifiziert
         message_to_send = pickle.dumps(['QUIT', name, 'Left the chatroom']) #Nachricht an den Server wird vorbereitet, die über das Verlassen informiert
         s.sendto(message_to_send, leader_server) #Nachricht wird gesendet
+        s.close()
         #tell via Multicast that the client left the chatroom -> not directly necessary, broadcast_listener takes care
         #multicast_sender.multicast_socket.sendto(pickle.dumps([utils.RequestType.CLIENT_QUIT.value, '', '', '', '']), utils.MULTICAST_GROUP_ADDRESS)
         os._exit(0)

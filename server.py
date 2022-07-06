@@ -238,7 +238,8 @@ if __name__ == '__main__':
                 print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
 
         except KeyboardInterrupt:
-            send_server_crashed()
+            if utils.leader == utils.myIP:
+                send_server_crashed()
             utils.sock.close()
             print(f'Closing Server on IP {utils.myIP} with PORT {utils.SERVER_PORT}')
             sleep(2) #let application sleep for 2 seconds, because otherwise the send_server_crashed() messagee is not sent (takes too long)
