@@ -7,8 +7,8 @@ ring_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 ring_socket.bind(('', utils.RING_PORT))
 
 def form_ring(members):
-    sorted_binary_ring = sorted([socket.inet_aton(member) for member in members]) #?? was ist inet_aton ???
-    sorted_ip_ring = [socket.inet_ntoa(node) for node in sorted_binary_ring] #?? Was ist inet_ntoa ???
+    sorted_binary_ring = sorted([socket.inet_aton(member) for member in members])
+    sorted_ip_ring = [socket.inet_ntoa(node) for node in sorted_binary_ring] 
     return sorted_ip_ring #type of sorted_ip_ring: list
 
 def get_neighbour(members, current_member_ip, direction='left'):
