@@ -69,7 +69,7 @@ if __name__ == '__main__':
                             start_leader_election(received_message[1], utils.myIP) #neue Leader election wird gestartet; Pos. 1 von received_message enthält Server List. Warum wird die eigene IP als Leader angegeben?
 
                             ----------------------------------------------------------------	
-                                def start_leader_election(server_list, leader_server):   # 
+                                def start_leader_election(server_list, leader_server):    
                                     utils.new_leader = '' #Variable _new_leader wird auf leer gesetzt
                                     ring = form_ring(server_list) #Ring wird aus vorhandenen Servern gebildet
                                     -------------------------------
@@ -141,12 +141,69 @@ if __name__ == '__main__':
 
             if utils.leader == utils.myIP and utils.network_changed or utils.replica_crashed:
                 multicast_sender.start_sender()
+
+                """
+                def start_sender():
+                    sleep(1)
+
+                    # Send data to the multicast group
+                    message = pickle.dumps([utils.RequestType.SERVER_JOIN.value, utils.SERVER_LIST, utils.CLIENT_LIST, utils.leader, ''])
+                    multicast_socket.sendto(message, utils.MULTICAST_GROUP_ADDRESS)
+
+                    try:
+                        # Look for responses from all recipients
+                        multicast_socket.recvfrom(1024)
+                        return True
+
+                    except socket.timeout:
+                        return False_
+                """
+
                 print('Leader_election hast started ...')
                 leader_election.start_leader_election(utils.SERVER_LIST, utils.leader)
+
+                """
+                def start_leader_election(server_list, leader_server):
+                    utils.new_leader = '' #Variable _new_leader wird auf leer gesetzt
+                    ring = form_ring(server_list) #Ring wird aus vorhandenen Servern gebildet
+                    neighbour = get_neighbour(ring, leader_server, 'left') #neighbour wird identifiziert
+                    if neighbour != utils.get_host_ip(): # ?? Was genau heißt in diesem Zusammenhang host ??
+                        if neighbour: #falls Nachbar vorhanden
+                            print(f'My neighbour: {neighbour}')
+                            utils.neighbour = neighbour #Nachbar wird auch in Variable in utils gespeichert
+                            message = pickle.dumps([utils.myIP, server_list, False]) #Nachricht mit eigener IP, Server-Liste und ?? FALSE ?? wird gepackt
+                            ring_socket.sendto(message, (neighbour, utils.RING_PORT)) #Nachricht wird an den Ring-Socket geschickt
+                            print('Election message to neighbour was sent...')
+                            while True:
+                                if utils.new_leader != '': #sobald es einen neuen Leader gibt ist die election beendet
+                                    print('Leader_election FINISHED.')
+                                    break
+                                else:
+                                    print('\nWaiting to receive election message...\n')
+                                    try:
+                                        data, addr = ring_socket.recvfrom(1024) # auf Daten vom Ring-Socket warten
+                                        if data:
+                                            print(f'DATA: {pickle.loads(data)}')
+                                            received_message = pickle.loads(data)
+                                            check_leader(received_message, (neighbour, utils.RING_PORT)) # ?? Was passiert hier ??
+                                    except Exception as e:
+                                        print(e)
+                                        break
+                    else:
+                        NoneMetadataError
+                """
+
                 utils.leader_crashed = False
                 utils.network_changed = False
                 utils.replica_crashed = ''
                 print_participants_details()
+
+                """
+                def print_participants_details(): #Funktion, um über aktuelle Server, den Leader und die momentanen Clients zu informieren
+                    print(f'[SERVER LIST]: {utils.SERVER_LIST} ==> CURRENT LEADER: {utils.leader}')
+                    print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
+                """
+
                 if utils.neighbour != '':
                     utils.start_thread(heartbeat.start_heartbeat_listener, ())
 
