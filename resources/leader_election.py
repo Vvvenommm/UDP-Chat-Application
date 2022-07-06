@@ -7,12 +7,12 @@ ring_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 ring_socket.bind(('', utils.RING_PORT))
 
 def form_ring(members):
-    sorted_binary_ring = sorted([socket.inet_aton(member) for member in members])
-    sorted_ip_ring = [socket.inet_ntoa(node) for node in sorted_binary_ring]
+    sorted_binary_ring = sorted([socket.inet_aton(member) for member in members]) #?? was ist inet_aton ???
+    sorted_ip_ring = [socket.inet_ntoa(node) for node in sorted_binary_ring] #?? Was ist inet_ntoa ???
     return sorted_ip_ring #type of sorted_ip_ring: list
 
 def get_neighbour(members, current_member_ip, direction='left'):
-    current_member_index = members.index(current_member_ip) if current_member_ip in members else -1
+    current_member_index = members.index(current_member_ip) if current_member_ip in members else -1 # ??
     if current_member_index != -1:
         if direction == 'left':
             if current_member_index + 1 == len(members):
@@ -29,28 +29,28 @@ def get_neighbour(members, current_member_ip, direction='left'):
 
 
 def start_leader_election(server_list, leader_server):
-    utils.new_leader = ''
-    ring = form_ring(server_list)
-    neighbour = get_neighbour(ring, leader_server, 'left')
-    if neighbour != utils.get_host_ip():
-        if neighbour:
+    utils.new_leader = '' #Variable _new_leader wird auf leer gesetzt
+    ring = form_ring(server_list) #Ring wird aus vorhandenen Servern gebildet
+    neighbour = get_neighbour(ring, leader_server, 'left') #neighbour wird identifiziert
+    if neighbour != utils.get_host_ip(): # ?? Was genau heißt in diesem Zusammenhang host ??
+        if neighbour: #falls Nachbar vorhanden
             print(f'My neighbour: {neighbour}')
-            utils.neighbour = neighbour
-            message = pickle.dumps([utils.myIP, server_list, False])
-            ring_socket.sendto(message, (neighbour, utils.RING_PORT))
+            utils.neighbour = neighbour #Nachbar wird auch in Variable in utils gespeichert
+            message = pickle.dumps([utils.myIP, server_list, False]) #Nachricht mit eigener IP, Server-Liste und ?? FALSE ?? wird gepackt
+            ring_socket.sendto(message, (neighbour, utils.RING_PORT)) #Nachricht wird an den Ring-Socket geschickt
             print('Election message to neighbour was sent...')
             while True:
-                if utils.new_leader != '':
+                if utils.new_leader != '': #sobald es einen neuen Leader gibt ist die election beendet
                     print('Leader_election FINISHED.')
                     break
                 else:
                     print('\nWaiting to receive election message...\n')
                     try:
-                        data, addr = ring_socket.recvfrom(1024)
+                        data, addr = ring_socket.recvfrom(1024) # auf Daten vom Ring-Socket warten
                         if data:
                             print(f'DATA: {pickle.loads(data)}')
                             received_message = pickle.loads(data)
-                            check_leader(received_message, (neighbour, utils.RING_PORT))
+                            check_leader(received_message, (neighbour, utils.RING_PORT)) # ?? Was passiert hier ??
                     except Exception as e:
                         print(e)
                         break
