@@ -57,7 +57,7 @@ if __name__ == '__main__':
         """
         def start_notleader_election():
             while True:
-                if utils.new_leader != '': # falls es keinen neuen Leader gibt ???
+                if utils.new_leader != '': # falls es keinen neuen Leader gibt
                     break
                 else:
                     print('\nWaiting to receive election message...\n')
@@ -132,7 +132,7 @@ if __name__ == '__main__':
     # Start Multicast Receiver, um Nachrichten empfangen zu können
     utils.start_thread(multicast_receive.start_receiver, ())
 
-    if utils.neighbour != '':
+    if utils.neighbour != '': # falls keiner existiert?
         utils.start_thread(heartbeat.start_heartbeat_listener, ())
 
     while True:
