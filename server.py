@@ -1,5 +1,8 @@
-import sys
+import os
+import pickle
+import socket
 
+from time import sleep
 from multicast import multicast_sender, multicast_receive
 from resources import utils, leader_election, heartbeat
 from broadcast import broadcast_listener
@@ -8,6 +11,11 @@ from broadcast import broadcast_listener
 def print_participants_details(): #Funktion, um über aktuelle Server, den Leader und die momentanen Clients zu informieren
     print(f'[SERVER LIST]: {utils.SERVER_LIST} ==> CURRENT LEADER: {utils.leader}')
     print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
+
+def send_server_crashed():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP-Socket für Nachrichtenaustausch
+    message = pickle.dumps(['QUIT_SERVER', 'SERVER', 'SERVER HAS QUIT'])
+    s.sendto(message, (utils.leader, 10000))
 
 #start
 if __name__ == '__main__':
@@ -72,6 +80,8 @@ if __name__ == '__main__':
     if utils.neighbour != '':
         utils.start_thread(heartbeat.start_heartbeat_listener, ())
 
+    server_crashed = False
+
     while True:
 
         try:
@@ -108,13 +118,8 @@ if __name__ == '__main__':
                 print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
 
         except KeyboardInterrupt:
+            send_server_crashed()
             utils.sock.close()
-            print(f'Closing Server on IP {utils.myIP} with PORT {utils.SERVER_PORT}', file=sys.stderr)
-            break
-
-#TODO: Code umstrukturieren und vereinfachen -> Teils Done
-#TODO: Clients verbinden und Chatten -> Done -> Name des Clients auch mitgeben -> Done, done
-
-
-#TODO: Heartbeat einbauen -> gehört zusammen: #TODO: Server crash testen und einbauen
-#TODO: Clients nach Server Crash mit neuem Server verbinden
+            print(f'Closing Server on IP {utils.myIP} with PORT {utils.SERVER_PORT}')
+            sleep(2) #let application sleep for 2 seconds, because otherwise the send_server_crashed() messagee is not sent (takes too long)
+            break # needed so it can escape while loop

@@ -12,7 +12,6 @@ name = input('To enter chatroom please write your name: ')
 port = random.randint(6000, 10000) #Client wählt zufälligen Port zwischen 6000 und 10000
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #UDP-Socket für Nachrichtenaustausch
 
-
 def send_messages():
     while True:
         cmd_message = input("")
@@ -25,20 +24,18 @@ def send_messages():
             print(e)
             break
 
-
 def receive_messages():
     while True:
 
         try:
             data, addr = s.recvfrom(1024) #Daten ??Was ist hier enthalten?? werden über den Broadcast empfangen
-            print(f'{data.decode(utils.UNICODE)}') #Empfangene Variable _data_ wird dekodiert und im Terminal gedruckt
+            received_message = data.decode(utils.UNICODE)
+            print(received_message)  # Empfangene Variable _data_ wird dekodiert und im Terminal gedruckt
 
-            # if connection to server is lost (in case of server crash)
-            if not data:
-                print("\nChat server currently not available."
-                      "Please wait 3 seconds for reconnection with new server leader.") #Falls keine Daten ankommen: Server nicht erreichbar wird gedruckt !!Was, wenn einfach nichts geschrieben wird? Wird der Server nicht "zu schnell für tot erklärt"?
-                s.close() #Socket wird geschlossen
-                sleep(3)
+            if received_message.endswith('SERVER HAS QUIT'):
+                print("[CLIENT] - Server leader is not available. Reconnecting with new server leader in 3 seconds.") #Falls keine Daten ankommen: Server nicht erreichbar wird gedruckt !!Was, wenn einfach nichts geschrieben wird? Wird der Server nicht "zu schnell für tot erklärt"?
+                s.close()
+                sleep(3) # let client sleep for a few seconds before retriggering connection to new server leader again
 
                 # Start reconnecting to new server leader
                 establish_connection()
@@ -82,7 +79,7 @@ def establish_connection():
         s.sendto(message, leader_address) # Nachricht wird an die Leader-Adresse geschickt
     # if there is no Server available, exit the script
     else:
-        print("Please try to join later again.")
+        print("[CLIENT] - Please try to join later again.")
         os._exit(0)
 
 
@@ -98,7 +95,7 @@ if __name__ == '__main__':
             pass
 
     except KeyboardInterrupt: #User bricht das Programm über Tastaturbefehl ab
-        print("\nYou left the chatroom") #Drucken, dass der Chatroom verlassen wird
+        print("[CLIENT] - You left the chatroom") #Drucken, dass der Chatroom verlassen wird
         leader_server = (str(utils.leader), 10000) #Leader Server wird identifiziert
         message_to_send = pickle.dumps(['QUIT', name, 'Left the chatroom']) #Nachricht an den Server wird vorbereitet, die über das Verlassen informiert
         s.sendto(message_to_send, leader_server) #Nachricht wird gesendet

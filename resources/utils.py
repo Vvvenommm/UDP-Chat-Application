@@ -76,7 +76,9 @@ def get_host_port():
 
 # THREADING
 def start_thread(target, args):
-    threading.Thread(target=target, args=args).start()
+    thread = threading.Thread(target=target, args=args)
+    thread.daemon = True
+    thread.start()
 
 
 def handle_pickle(data=None):
