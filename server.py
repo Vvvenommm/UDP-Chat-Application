@@ -9,7 +9,7 @@ from broadcast import broadcast_listener
 
 # terminal printer for info
 def print_participants_details(): #Funktion, um über aktuelle Server, den Leader und die momentanen Clients zu informieren
-    print(f'[SERVER LIST]: {utils.SERVER_LIST} ==> CURRENT LEADER: {utils.leader}')
+    print(f'\n[SERVER LIST]: {utils.SERVER_LIST} ==> CURRENT LEADER: {utils.leader}')
     print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
 
 def send_server_crashed():
@@ -55,11 +55,10 @@ if __name__ == '__main__':
     if not receiver_exists: #Falls die vorherige Funktion False ausgibt:
         utils.SERVER_LIST.append(utils.myIP) #Server fügt eigene Adresse an _SERVER_LIST_ an
         utils.leader = utils.myIP #neuer Server ernennt sich selbst zum Leader
-        print(f'[SERVER] - LEADER]: {utils.leader}') #neuer Leader wird ausgegeben
+        print(f'[SERVER] - Leader {utils.leader}') #neuer Leader wird ausgegeben
 
     else: #heißt vorherige Funktion gibt True aus: es muss schon einen Leader geben, da mindestens ein weiterer Server vorhanden ist
-        print('[LEADER ALREADY EXISTS] - UPDATING...')
-        print('Leader_election hast started ...')
+        print('\n[SERVER] - Leader already exists - updating...')
         leader_election.start_notleader_election()
 
         """
@@ -142,6 +141,7 @@ if __name__ == '__main__':
 
     if utils.neighbour != '': # falls keiner existiert?
         utils.start_thread(heartbeat.start_heartbeat_listener, ())
+        print_participants_details() # print out the list
 
     server_crashed = False
 
@@ -169,7 +169,6 @@ if __name__ == '__main__':
                         return False_
                 """
 
-                print('Leader_election hast started ...')
                 leader_election.start_leader_election(utils.SERVER_LIST, utils.leader)
 
                 """

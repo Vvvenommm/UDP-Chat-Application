@@ -5,8 +5,8 @@ from resources import utils
 
 
 def start_heartbeat_listener():
-    print(f'[HEARTBEAT] - started on IP: {utils.get_host_ip()} on PORT: {utils.HEARTBEAT_PORT}')
-    print('[HEARTBEAT] - waiting for SERVERs...')
+    print(f'\n[HEARTBEAT] - started on IP: {utils.get_host_ip()} on PORT: {utils.HEARTBEAT_PORT}'
+          f'\n[HEARTBEAT] - waiting for SERVERs...\n')
     while True:
         neigbour_crash_count = 0
 

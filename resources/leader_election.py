@@ -45,10 +45,10 @@ def start_leader_election(server_list, leader_server):
             print('[SERVER] - Election message to neighbour sent...')
             while True:
                 if utils.new_leader != '':  # sobald es einen neuen Leader gibt ist die election beendet
-                    print('[SERVER] - Leader_election FINISHED.')
+                    print('[SERVER] - Leader election FINISHED.')
                     break
                 else:
-                    print('\nWaiting to receive election message...\n')
+                    print('\n[SERVER] - Waiting to receive election message...\n')
                     try:
                         data, addr = ring_socket.recvfrom(1024)  # auf Daten vom Ring-Socket warten
                         if data:
@@ -62,11 +62,12 @@ def start_leader_election(server_list, leader_server):
 
 
 def start_notleader_election():
+    print(f'[SERVER] - Leader election has started')
     while True:
         if utils.new_leader != '':
             break
         else:
-            print('\nWaiting to receive election message...\n')
+            print('\n[SERVER] - Waiting to receive election message...\n')
             try:
                 data, addr = ring_socket.recvfrom(1024)
                 if data:
@@ -74,6 +75,7 @@ def start_notleader_election():
                     received_message = pickle.loads(data)
                     start_leader_election(received_message[1], utils.myIP)
                     utils.SERVER_LIST = received_message[1]
+                    break
             except Exception as e:
                 print(e)
                 break
@@ -110,11 +112,11 @@ def check_leader(election_message, my_left_neighbour):
         utils.leader = utils.myIP
         # write new leader in comando
         utils.new_leader = utils.myIP
-        print(f'[SERVER] - LEADER]: {utils.leader}')
+        print(f'[SERVER] - Leader {utils.leader}') #neuer Leader wird ausgegeben
         leader_message = pickle.dumps([utils.leader, '', True])
         ring_socket.sendto(leader_message, my_left_neighbour)
 
     if existing_leader and ip_message != utils.myIP:
         utils.new_leader = ip_message
         utils.leader = ip_message
-        print(f'[SERVER] - LEADER]: {utils.leader}')
+        print(f'[SERVER] - Leader {utils.leader}') #neuer Leader wird ausgegeben
