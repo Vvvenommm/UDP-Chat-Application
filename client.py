@@ -35,7 +35,7 @@ def receive_messages():
             if received_message.endswith('SERVER HAS QUIT'):
                 print("[CLIENT] - Server leader is not available. Reconnecting with new server leader in 3 seconds.") #Falls keine Daten ankommen: Server nicht erreichbar wird gedruckt !!Was, wenn einfach nichts geschrieben wird? Wird der Server nicht "zu schnell für tot erklärt"?
                 s.close()
-                sleep(3) # let client sleep for a few seconds before retriggering connection to new server leader again
+                sleep(15) # let client sleep for a few seconds before retriggering connection to new server leader again
 
                 # Start reconnecting to new server leader
                 establish_connection()

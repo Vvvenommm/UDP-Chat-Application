@@ -6,6 +6,7 @@ from resources import utils
 # Create the socket
 multicast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+
 #source: https://pymotw.com/3/socket/multicast.html
 def start_receiver():
     # Bind to the server address

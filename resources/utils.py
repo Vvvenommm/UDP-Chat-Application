@@ -83,6 +83,7 @@ def start_thread(target, args):
 
 def handle_pickle(data=None):
     received_data = pickle.loads(data)
+    print(received_data)
     return ReturnObject(received_data[0], received_data[1], received_data[2], received_data[3], received_data[4])
 
 
