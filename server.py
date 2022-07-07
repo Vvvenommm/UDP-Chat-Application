@@ -1,4 +1,3 @@
-import os
 import pickle
 import socket
 
@@ -7,17 +6,19 @@ from multicast import multicast_sender, multicast_receive
 from resources import utils, leader_election, heartbeat
 from broadcast import broadcast_listener
 
+
 # terminal printer for info
 def print_participants_details(): #Funktion, um über aktuelle Server, den Leader und die momentanen Clients zu informieren
     print(f'\n[SERVER LIST]: {utils.SERVER_LIST} ==> CURRENT LEADER: {utils.leader}')
     print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
+
 
 def send_server_crashed():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP-Socket für Nachrichtenaustausch
     message = pickle.dumps(['QUIT_SERVER', 'SERVER', 'SERVER HAS QUIT'])
     s.sendto(message, (utils.leader, 10000))
 
-#start
+
 if __name__ == '__main__':
     utils.start_thread(broadcast_listener.start_broadcast_listener, ()) #Broadcast Listener wird mit neuem Thread gestartet
 
@@ -41,17 +42,13 @@ if __name__ == '__main__':
         print_participants_details() # print out the list
 
     while True:
-
         try:
-
             if utils.leader == utils.myIP and utils.network_changed or utils.replica_crashed:
-                multicast_sender.start_sender()
-
                 leader_election.start_leader_election(utils.SERVER_LIST, utils.leader)
-
+                multicast_sender.start_sender()
                 utils.leader_crashed = False
                 utils.network_changed = False
-                utils.replica_crashed = ''
+                utils.replica_crashed = False
                 print_participants_details()
                 if utils.neighbour != '':
                     utils.start_thread(heartbeat.start_heartbeat_listener, ())
@@ -62,17 +59,6 @@ if __name__ == '__main__':
                 print_participants_details()
                 if utils.neighbour != '':
                     utils.start_thread(heartbeat.start_heartbeat_listener, ())
-
-            if utils.leader == utils.myIP and utils.new_server:
-                utils.new_server = False
-                leader_election.start_leader_election(utils.SERVER_LIST, utils.leader)
-                print_participants_details()
-                if utils.neighbour != '':
-                    utils.start_thread(heartbeat.start_heartbeat_listener, ())
-
-            if utils.client_quit:
-                utils.client_quit = False
-                print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
 
         except KeyboardInterrupt:
             print(f'[SERVER] - Closing Server with BROADCAST on IP {utils.myIP} with PORT {utils.SERVER_PORT} in 2 seconds.')
