@@ -50,9 +50,7 @@ def establish_connection():
     global s
     port = random.randint(6000, 10000)  # Client wählt zufälligen Port zwischen 6000 und 10000
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP-Socket für Nachrichtenaustausch
-    # Set the socket to broadcast and enable reusing addresses
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 
     server_leader_found = multicast_sender.join_multicast_group(name) #Leader server wird identifiziert
 
