@@ -79,7 +79,7 @@ def establish_connection():
         s.sendto(message, leader_address) # Nachricht wird an die Leader-Adresse geschickt
     # if there is no Server available, exit the script
     else:
-        print("[CLIENT] - Please try to join later again.")
+        print("[CLIENT] - New Server Leader not found! Please try to join later again.")
         s.close()
         os._exit(0)
 

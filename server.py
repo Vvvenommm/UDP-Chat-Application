@@ -219,7 +219,6 @@ if __name__ == '__main__':
 
             if utils.leader != utils.myIP and utils.network_changed:
                 utils.network_changed = False
-                print('Leader_election hast started 2...')
                 leader_election.start_leader_election(utils.SERVER_LIST, utils.leader)
                 print_participants_details()
                 if utils.neighbour != '':
@@ -227,7 +226,6 @@ if __name__ == '__main__':
 
             if utils.leader == utils.myIP and utils.new_server:
                 utils.new_server = False
-                print('Leader_election hast started 3...')
                 leader_election.start_leader_election(utils.SERVER_LIST, utils.leader)
                 print_participants_details()
                 if utils.neighbour != '':
@@ -238,9 +236,9 @@ if __name__ == '__main__':
                 print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
 
         except KeyboardInterrupt:
+            print(f'[SERVER] - Closing Server with BROADCAST on IP {utils.myIP} with PORT {utils.SERVER_PORT} in 2 seconds.')
             if utils.leader == utils.myIP:
                 send_server_crashed()
+                sleep(2) #let application sleep for 2 seconds, because otherwise the send_server_crashed() messagee is not sent (takes too long)
             utils.sock.close()
-            print(f'Closing Server on IP {utils.myIP} with PORT {utils.SERVER_PORT}')
-            sleep(2) #let application sleep for 2 seconds, because otherwise the send_server_crashed() messagee is not sent (takes too long)
             break # needed so it can escape while loop

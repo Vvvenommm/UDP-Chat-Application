@@ -67,38 +67,6 @@ def start_heartbeat_listener():
                             neighbour_failed = True
                             heartbeat_socket.close()
 
-
-            print('Out')
-            utils.neighbour = ''
-            print(f'SERVER_LIST: {utils.SERVER_LIST}')
-            print(f'CLIENT_LIST: {utils.CLIENT_LIST}')
-            print(f'LEADER: {utils.leader}')
-            print(f'MYIP: {utils.myIP}')
-            print(f'LEADER_CRASHED: {utils.leader_crashed}')
-            print(f'NETWORK_CHANGED: {utils.network_changed}')
-
-
-def test():
-        sleep(3)
-        print(f'[HEARTBEAT] - connection lost to Neighbour: {utils.neighbour} with exception: {e}')
-        #neigbour_crash_count += 1
-
-        #if neigbour_crash_count > 5:
-        # remove crashed Neighbour from Server List
-        utils.SERVER_LIST.remove(utils.neighbour)
-
-        # used if the crashed Neighbour was the Server Leader
-        if utils.leader == utils.neighbour:
-            print(f'[HEARTBEAT] - Server Leader {utils.neighbour} crashed',
-                  file=sys.stderr)
-            utils.leader_crashed = True
-
-            # assign own IP address as new Server Leader
-            utils.leader = utils.myIP
-            utils.network_changed = True
-
-        # used if crashed Neighbour was a Server Replica
-        else:
-            print(f'[HEARTBEAT] - Server Replica {utils.neighbour} crashed',
-                  file=sys.stderr)
-            utils.replica_crashed = True
+            utils.neighbour = '' # reset neighbour to escape while loop and reassign in next iteration
+        heartbeat_socket.close() # close broadcoast_socket to prevent errors
+        break # escape while loop
