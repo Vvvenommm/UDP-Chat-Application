@@ -30,6 +30,7 @@ def start_sender():
         return True
 
     except socket.timeout:
+        print('Here Error 6')
         return False
 
 #finally:
@@ -39,15 +40,22 @@ def start_sender():
 def join_multicast_group(name):
     # Send data to the multicast group
     message = pickle.dumps([utils.RequestType.CLIENT_JOIN.value, '', utils.CLIENT_LIST, '', name])
+    print(pickle.loads(message))
     multicast_socket.sendto(message, utils.MULTICAST_GROUP_ADDRESS)
 
-    # try to get Server Leader
-    try:
-        data, address = multicast_socket.recvfrom(1024)
-        received_leader = pickle.loads(data)[0]
-        utils.leader = received_leader
-        utils.CLIENT_LIST = received_leader[1]
-        return True
+    while True:
+        # try to get Server Leader
+        try:
+            utils.leader = ''
+            data, address = multicast_socket.recvfrom(1024)
+            print(pickle.loads(data))
+            print(address)
+            received_leader = pickle.loads(data)[0]
+            if received_leader == address[0]:
+                utils.leader = received_leader
+            else:
+                utils.leader = address[0]
+            return True
 
-    except socket.timeout:
-        return False
+        except socket.timeout:
+            return False

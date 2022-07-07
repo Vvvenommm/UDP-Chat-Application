@@ -9,10 +9,8 @@ from multicast import multicast_sender
 
 name = input('To enter chatroom please write your name: ')
 
-port = random.randint(6000, 10000) #Client wählt zufälligen Port zwischen 6000 und 10000
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #UDP-Socket für Nachrichtenaustausch
-
 def send_messages():
+    global s
     while True:
         cmd_message = input("")
         message = pickle.dumps(['CHAT', name, cmd_message]) #Nachricht (cmd_message) wird über input empfangen und zusammen mit dem Marker "CHAT" und dem Usernamen des Client als byte-Datei gespeichert (pickle.dumps)
@@ -21,24 +19,27 @@ def send_messages():
             s.sendto(message, server) #byte-Datei wird an den zuvor identifizierten Server geschickt
 
         except Exception as e:
+            print('Here Error 2')
             print(e)
             break
 
 def receive_messages():
+    global s
     while True:
 
         try:
             data, addr = s.recvfrom(1024) #Daten ??Was ist hier enthalten?? werden über den Broadcast empfangen
             received_message = data.decode(utils.UNICODE)
-            print(received_message)  # Empfangene Variable _data_ wird dekodiert und im Terminal gedruckt
 
             if received_message.endswith('SERVER HAS QUIT'):
                 print("[CLIENT] - Server leader is not available. Reconnecting with new server leader in 3 seconds.") #Falls keine Daten ankommen: Server nicht erreichbar wird gedruckt !!Was, wenn einfach nichts geschrieben wird? Wird der Server nicht "zu schnell für tot erklärt"?
                 s.close()
-                sleep(15) # let client sleep for a few seconds before retriggering connection to new server leader again
+                sleep(25) # let client sleep for a few seconds before retriggering connection to new server leader again
 
                 # Start reconnecting to new server leader
                 establish_connection()
+
+            print(received_message)  # Empfangene Variable _data_ wird dekodiert und im Terminal gedruckt
 
         except Exception as e:
             print(e)
@@ -46,28 +47,14 @@ def receive_messages():
 
 
 def establish_connection():
+    global s
+    port = random.randint(6000, 10000)  # Client wählt zufälligen Port zwischen 6000 und 10000
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP-Socket für Nachrichtenaustausch
+    # Set the socket to broadcast and enable reusing addresses
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
     server_leader_found = multicast_sender.join_multicast_group(name) #Leader server wird identifiziert
-    # 1. Nachricht für Multicast Group wird erstellt. Diese enthält den Wert aus der Aufzählung von _CLIENT_JOIN_ ??Was ist hier genau enthalten, was ist Name und was ist Wert?? + die Namen der momentan vorhandenen Clients
-    # 2. Nachricht wird an _MULTICAST_GROUP_ADRESS_ gesendet
-    # 3. Es wird gewartet, bis über den Multicast aktuelle Infos zum Leader bereitgestellt werden. Die empfangene Variable _data_ kommt als byte und wird deshalb über pickle entpackt. Anschließend wird auch die Variable leader in utils aktualisiert
-
-    """
-    def join_multicast_group(name):
-    # Send data to the multicast group
-        message = pickle.dumps([utils.RequestType.CLIENT_JOIN.value, '', utils.CLIENT_LIST, '', name])
-        multicast_socket.sendto(message, utils.MULTICAST_GROUP_ADDRESS)
-
-    # try to get Server Leader
-    try:
-        data, address = multicast_socket.recvfrom(1024)
-        received_leader = pickle.loads(data)[0]
-        utils.leader = received_leader
-        utils.CLIENT_LIST = received_leader[1]
-        return True
-
-    except socket.timeout:
-        return False
-    """
 
     if server_leader_found:
         print(f'[SERVER] - LEADER: {utils.leader}') #Leader Server wird im Terminal gedruckt

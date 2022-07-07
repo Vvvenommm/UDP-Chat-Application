@@ -39,6 +39,7 @@ def start_broadcast_listener():
             send_message_to_clients(client_message, addr)
 
 
+
 def handle_incoming_messages(message=None, addr=None):
     # source: https://learnpython.com/blog/python-match-case-statement/
     # match case is a new functionality which came with python 3.10
@@ -47,6 +48,8 @@ def handle_incoming_messages(message=None, addr=None):
             print(f'[CLIENT]: {addr} - {message.client_name} is connected with chatroom')
         case 'CHAT':
             print(get_formatted_message(addr, message.client_name, message.client_message))
+        case 'NEW_LEADER':
+            print('New leader')
         case 'QUIT':
             utils.CLIENT_LIST.remove(addr)
             print(get_formatted_message(addr, message.client_name, message.client_message))

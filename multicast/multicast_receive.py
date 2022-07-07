@@ -1,7 +1,11 @@
+import random
 import socket
 import struct
 import pickle
+from random import seed
+from time import sleep
 from resources import utils
+# inspiration source: https://python.tutorialink.com/not-seeing-udp-multicast-messages-from-another-device/
 
 # Create the socket
 multicast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
