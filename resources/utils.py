@@ -1,6 +1,6 @@
 import socket
 import threading
-import enum #zur Verwendung und Implementierung von Aufzählungen
+import enum
 import pickle
 
 UNICODE = 'utf-8'
