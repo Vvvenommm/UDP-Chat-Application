@@ -37,7 +37,7 @@ if __name__ == '__main__':
     # Start Multicast Receiver, um Nachrichten empfangen zu können
     utils.start_thread(multicast_receive.start_receiver, ())
 
-    if utils.neighbour != '': # falls keiner existiert?
+    if utils.neighbour != '': # falls es einen Nachbarn/anderen Server gibt
         utils.start_thread(heartbeat.start_heartbeat_listener, ())
         print_participants_details() # print out the list
 
