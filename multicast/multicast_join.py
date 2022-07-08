@@ -20,8 +20,6 @@ def join_multicast_group(name):
         # try to get Server Leader
         try:
             data, address = multicast_socket.recvfrom(1024)
-            print(pickle.loads(data))
-            print(address)
             received_leader = pickle.loads(data)[0]
             utils.leader = received_leader
             return True

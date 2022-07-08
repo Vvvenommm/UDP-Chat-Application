@@ -24,13 +24,15 @@ def start_broadcast_listener():
         if client_message.chat_type == 'QUIT_SERVER':
             send_message_to_clients(client_message, addr)
 
+        elif client_message.chat_type == 'NEW_LEADER':
+            send_message_to_clients(client_message, addr)
+
         else:
             if addr not in utils.CLIENT_LIST:
                 utils.CLIENT_LIST.append(addr)
                 if client_message:
                     handle_incoming_messages(client_message, addr)
                     broadcast_socket.sendto(f'[SERVER]: {client_message.client_name}, you are connected with chatroom'.encode(utils.UNICODE), addr)
-                    #broadcast_socket.sendto(f'[CLIENT LIST]: {utils.CLIENT_LIST}'.encode(utils.UNICODE), addr)
                     client_message.client_message = 'joined chatroom'
                     send_message_to_clients(client_message, addr)
                     continue

@@ -20,7 +20,6 @@ def send_messages():
             client_socket.sendto(message, server) #byte-Datei wird an den zuvor identifizierten Server geschickt
 
         except Exception as e:
-            print('Here Error 2')
             print(e)
             break
 
@@ -34,11 +33,17 @@ def receive_messages():
             received_message = data.decode(utils.UNICODE)
 
             if received_message.endswith('SERVER HAS QUIT'):
-                print("[CLIENT] - Server leader is not available. Reconnecting with new server leader in 10 seconds.") #Falls keine Daten ankommen: Server nicht erreichbar wird gedruckt !!Was, wenn einfach nichts geschrieben wird? Wird der Server nicht "zu schnell für tot erklärt"?
+                print('\n[CLIENT] - Server leader is not available. Reconnecting with new server leader in 15 seconds.\n') #Falls keine Daten ankommen: Server nicht erreichbar wird gedruckt !!Was, wenn einfach nichts geschrieben wird? Wird der Server nicht "zu schnell für tot erklärt"?
                 client_socket.close()
-                sleep(10) # let client sleep for a few seconds before retriggering connection to new server leader again
+                sleep(15) # let client sleep for a few seconds before retriggering connection to new server leader again
 
                 # Start reconnecting to new server leader
+                establish_connection()
+
+            elif received_message.endswith('NEW_LEADER'):
+                print('\n[CLIENT] -  new Leader has been elected. Reconnecting in 5 seconds.\n')
+                client_socket.close()
+                sleep(5)
                 establish_connection()
 
             else:
@@ -57,7 +62,6 @@ def establish_connection():
     client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-
     server_leader_found = multicast_join.join_multicast_group(name) #Leader server wird identifiziert
 
     if server_leader_found:
@@ -70,7 +74,7 @@ def establish_connection():
         client_socket.sendto(message, leader_address) # Nachricht wird an die Leader-Adresse geschickt
     # if there is no Server available, exit the script
     else:
-        print("[CLIENT] - New Server Leader not found! Please try to join later again.")
+        print('[CLIENT] - New Server Leader not found! Please try to join later again.')
         client_socket.close()
         os._exit(0)
 

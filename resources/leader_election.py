@@ -1,6 +1,7 @@
 # just Server Leader Election
 import socket
 import pickle
+
 from resources import utils
 
 ring_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -40,7 +41,7 @@ def start_leader_election(server_list, leader_server):
             print(f'[SERVER] - My neighbour: {neighbour}')
             utils.neighbour = neighbour  # Nachbar wird auch in Variable in utils gespeichert
             message = pickle.dumps(
-                [utils.myIP, server_list, False])  # Nachricht mit eigener IP, Server-Liste und ?? FALSE ?? wird gepackt
+                [utils.myIP, server_list, False, utils.CLIENT_LIST])  # Nachricht mit eigener IP, Server-Liste und ?? FALSE ?? wird gepackt
             ring_socket.sendto(message, (neighbour, utils.RING_PORT))  # Nachricht wird an den Ring-Socket geschickt
             print('[SERVER] - Election message to neighbour sent...')
             while True:
@@ -71,10 +72,10 @@ def start_notleader_election():
             try:
                 data, addr = ring_socket.recvfrom(1024)
                 if data:
-                    print(f'DATA: {pickle.loads(data)}')
                     received_message = pickle.loads(data)
                     start_leader_election(received_message[1], utils.myIP)
                     utils.SERVER_LIST = received_message[1]
+                    utils.CLIENT_LIST = received_message[3]
                     break
             except Exception as e:
                 print(e)
@@ -89,7 +90,7 @@ def check_leader(election_message, my_left_neighbour):
         # True: new_election_message: own IP is leader
         # existing_leader still False
         # election_message[1] = server_list - we need to add to have 3 message elements
-        new_election_message = pickle.dumps([utils.myIP, election_message[1], existing_leader])
+        new_election_message = pickle.dumps([utils.myIP, election_message[1], existing_leader, utils.CLIENT_LIST])
         # send new election message to left neighbour
         ring_socket.sendto(new_election_message, my_left_neighbour)
 
@@ -102,7 +103,7 @@ def check_leader(election_message, my_left_neighbour):
     if ip_message == utils.myIP and not existing_leader:
         existing_leader = True
         # election_message[1] = server_list - we need to add to have 3 message elements
-        new_election_message = pickle.dumps([utils.myIP, election_message[1], existing_leader])
+        new_election_message = pickle.dumps([utils.myIP, election_message[1], existing_leader, utils.CLIENT_LIST])
         # send new election message to left neighbour
         ring_socket.sendto(new_election_message, my_left_neighbour)
 
@@ -113,8 +114,13 @@ def check_leader(election_message, my_left_neighbour):
         # write new leader in comando
         utils.new_leader = utils.myIP
         print(f'[SERVER] - Leader {utils.leader}') #neuer Leader wird ausgegeben
-        leader_message = pickle.dumps([utils.leader, '', True])
+        leader_message = pickle.dumps([utils.leader, '', True, utils.CLIENT_LIST])
         ring_socket.sendto(leader_message, my_left_neighbour)
+        # send message to broadcast to the new leader so that it can forward to all clients that we have a new leader
+        # to trigger a new connection with the multicast in the client to receive the newest leader
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP-Socket für Nachrichtenaustausch
+        message = pickle.dumps(['NEW_LEADER', 'SERVER', 'NEW_LEADER'])
+        s.sendto(message, (utils.leader, 10000))
 
     if existing_leader and ip_message != utils.myIP:
         utils.new_leader = ip_message
