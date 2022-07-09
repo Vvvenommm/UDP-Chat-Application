@@ -19,7 +19,7 @@ multicast_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 #source: https://pymotw.com/3/socket/multicast.html
 def start_sender():
-    sleep(1)
+    sleep(3)
 
     # Send data to the multicast group
     message = pickle.dumps([utils.RequestType.SERVER_JOIN.value, utils.SERVER_LIST, utils.CLIENT_LIST, utils.leader, ''])
