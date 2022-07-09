@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27906531-64c1-42a0-a0c8-7070b8961b9d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broadcast/broadcast_listener.py" beforeDir="false" afterPath="$PROJECT_DIR$/broadcast/broadcast_listener.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multicast/multicast_join.py" beforeDir="false" afterPath="$PROJECT_DIR$/multicast/multicast_join.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multicast/multicast_receive.py" beforeDir="false" afterPath="$PROJECT_DIR$/multicast/multicast_receive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/heartbeat.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/heartbeat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/leader_election.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/leader_election.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
