@@ -3,6 +3,14 @@ import sys
 from time import sleep
 from resources import utils
 
+# create the UDP Socket for Heartbeat
+heartbeat_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# Set the socket to broadcast and enable reusing addresses
+heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+heartbeat_socket.settimeout(0.5)
+
 
 def start_heartbeat_listener():
     print(f'\n[HEARTBEAT] - started on IP: {utils.get_host_ip()} on PORT: {utils.HEARTBEAT_PORT}'
@@ -14,13 +22,6 @@ def start_heartbeat_listener():
         # host_address = (utils.neighbour, utils.SERVER_PORT)
         # only executed if a Neighbour is available to whom the Server can establish a connection
         if utils.neighbour:
-            # create the UDP Socket for Heartbeat
-            heartbeat_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-            # Set the socket to broadcast and enable reusing addresses
-            heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-            heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            heartbeat_socket.settimeout(0.5)
             heartbeat_socket.bind(('', utils.HEARTBEAT_PORT))
             heartbeat_socket.sendto(b'PING', (utils.neighbour, utils.HEARTBEAT_PORT))
 
