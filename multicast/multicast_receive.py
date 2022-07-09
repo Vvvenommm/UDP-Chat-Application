@@ -40,7 +40,7 @@ def start_receiver():
                         utils.network_changed = True
 
                     # server already exists -> 2nc e.g. Server is joining
-                    # when leader received and current leader is empty (!= my host address) -> (utils.leader is at this stagee empty)
+                    # when leader received and current leader is empty (!= my host address) -> (utils.leader is at this stage empty)
                     elif message.received_leader and utils.leader != utils.myIP:
                         utils.SERVER_LIST = message.received_server_list
                         utils.CLIENT_LIST = message.received_client_list
