@@ -14,7 +14,7 @@ def start_receiver():
     if sys.platform == 'win32':
       multicast_socket.bind(('', utils.MULTICAST_PORT))
     else:
-      multicast_socket.bind((utils.myIP, utils.MULTICAST_PORT))
+      multicast_socket.bind((utils.MULTICAST_GROUP_IP, utils.MULTICAST_PORT))
     # Bind to the server address
     #multicast_socket.bind(('', utils.MULTICAST_PORT))
 

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27906531-64c1-42a0-a0c8-7070b8961b9d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multicast/multicast_receive.py" beforeDir="false" afterPath="$PROJECT_DIR$/multicast/multicast_receive.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,7 +149,7 @@
       <workItem from="1657049540578" duration="983000" />
       <workItem from="1657050539497" duration="10136000" />
       <workItem from="1657140758097" duration="41924000" />
-      <workItem from="1657307035573" duration="2428000" />
+      <workItem from="1657307035573" duration="2592000" />
     </task>
     <servers />
   </component>
