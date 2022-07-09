@@ -1,4 +1,3 @@
-import sys
 import socket
 import struct
 import pickle
@@ -11,12 +10,8 @@ multicast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 #source: https://pymotw.com/3/socket/multicast.html
 def start_receiver():
-    if sys.platform == 'win32':
-      multicast_socket.bind(('', utils.MULTICAST_PORT))
-    else:
-      multicast_socket.bind((utils.MULTICAST_GROUP_IP, utils.MULTICAST_PORT))
     # Bind to the server address
-    #multicast_socket.bind(('', utils.MULTICAST_PORT))
+    multicast_socket.bind(('', utils.MULTICAST_PORT))
 
     # Tell the operating system to add the socket to
     # the multicast group on all interfaces.
