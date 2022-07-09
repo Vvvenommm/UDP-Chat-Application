@@ -1,6 +1,6 @@
 import socket
 import threading
-import enum
+import enum #zur Verwendung und Implementierung von Aufzählungen
 import pickle
 
 UNICODE = 'utf-8'
@@ -15,7 +15,7 @@ HEARTBEAT_PORT = 10002
 RING_PORT = 10003
 
 # MULTICAST
-MULTICAST_GROUP_IP = '224.3.100.255'
+MULTICAST_GROUP_IP = '224.3.29.71'
 MULTICAST_PORT = 10001
 MULTICAST_GROUP_ADDRESS = (MULTICAST_GROUP_IP, MULTICAST_PORT)
 
