@@ -5,7 +5,7 @@ import os
 
 from time import sleep
 from resources import utils
-from multicast import multicast_join
+from multicast import multicast_join, multicast_sender
 
 name = input('To enter chatroom please write your name: ')
 
@@ -62,7 +62,7 @@ def establish_connection():
     client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-    server_leader_found = multicast_join.join_multicast_group(name)
+    server_leader_found = multicast_sender.join_multicast_group(name)
 
     if server_leader_found:
         print(f'[SERVER] - LEADER: {utils.leader}')
