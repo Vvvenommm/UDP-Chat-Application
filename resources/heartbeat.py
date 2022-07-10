@@ -20,7 +20,7 @@ def start_heartbeat_listener():
             # Set the socket to broadcast and enable reusing addresses
             heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
             heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            if sys.version != "win32":
+            if sys.version is not "win32":
                 heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
 
             heartbeat_socket.settimeout(2)
