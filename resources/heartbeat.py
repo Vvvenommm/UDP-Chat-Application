@@ -20,8 +20,9 @@ def start_heartbeat_listener():
             # Set the socket to broadcast and enable reusing addresses
             heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
             heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            heartbeat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
 
-            heartbeat_socket.settimeout(0.5)
+            heartbeat_socket.settimeout(2)
             heartbeat_socket.bind(('', utils.HEARTBEAT_PORT))
             heartbeat_socket.sendto(b'PING', (utils.neighbour, utils.HEARTBEAT_PORT))
 
