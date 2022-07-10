@@ -21,11 +21,11 @@ def start_broadcast_listener():
         client_message = utils.handle_client_message(data)
 
         # when Server quits forward message to clients
-        if client_message.chat_type == 'QUIT_SERVER':
+        if client_message.chat_type == utils.RequestType.QUIT_SERVER.value:
             send_message_to_clients(client_message, addr)
 
         # forward message that new leader joined to reconnect
-        elif client_message.chat_type == 'NEW_LEADER':
+        elif client_message.chat_type == utils.RequestType.NEW_LEADER.value:
             send_message_to_clients(client_message, addr)
 
         else:
