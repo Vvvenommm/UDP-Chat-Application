@@ -31,7 +31,7 @@ def receive_messages():
         try:
             data, addr = client_socket.recvfrom(1024)
             received_message = data.decode(utils.UNICODE)
-            print(received_message)
+
             if received_message.endswith('SERVER HAS QUIT'):
                 print('\n[CLIENT] - Server leader is not available. Reconnecting with new server leader in 15 seconds.\n')
                 client_socket.close()
