@@ -22,7 +22,7 @@ def start_heartbeat_listener():
         # host_address = (utils.neighbour, utils.SERVER_PORT)
         # only executed if a Neighbour is available to whom the Server can establish a connection
         if utils.neighbour:
-            heartbeat_socket.bind((utils.neighbour, utils.HEARTBEAT_PORT))
+            heartbeat_socket.bind((utils.myIP, utils.HEARTBEAT_PORT))
             heartbeat_socket.sendto(b'PING', (utils.neighbour, utils.HEARTBEAT_PORT))
 
             while True:
