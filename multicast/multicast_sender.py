@@ -5,19 +5,19 @@ import pickle
 from time import sleep
 from resources import utils
 
+# Create the datagram socket
+# Set a timeout so the socket does not block
+# indefinitely when trying to receive data.
+multicast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+multicast_socket.settimeout(1)
+
+# Set the time-to-live for messages to 1 so they do not
+# go past the local network segment.
+ttl = struct.pack('b', 1)
+multicast_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 #source: https://pymotw.com/3/socket/multicast.html
 def start_sender():
-    # Create the datagram socket
-    # Set a timeout so the socket does not block
-    # indefinitely when trying to receive data.
-    multicast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    multicast_socket.settimeout(1)
-
-    # Set the time-to-live for messages to 1 so they do not
-    # go past the local network segment.
-    ttl = struct.pack('b', 1)
-    multicast_socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
     sleep(1)
 
     # Send data to the multicast group
