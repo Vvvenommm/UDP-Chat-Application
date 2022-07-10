@@ -22,9 +22,11 @@ def start_broadcast_listener():
 
         # when Server quits forward message to clients
         if client_message.chat_type == 'QUIT_SERVER':
+            print('HERE QUIT SERVER')
             send_message_to_clients(client_message, addr)
 
         elif client_message.chat_type == 'NEW_LEADER':
+            print('HERE NEW LEADER')
             send_message_to_clients(client_message, addr)
 
         else:
