@@ -28,9 +28,8 @@ def reset_utils():
 
 if __name__ == '__main__':
     utils.start_thread(broadcast_listener.start_broadcast_listener, ())
-
     receiver_exists = multicast_sender.start_sender()
-    sleep(2)
+
     if not receiver_exists:
         utils.SERVER_LIST.append(utils.myIP)
         utils.leader = utils.myIP
