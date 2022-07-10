@@ -34,20 +34,3 @@ def start_sender():
     except socket.timeout:
         return False
 
-def join_multicast_group(name):
-
-    # Send data to the multicast group
-    message = pickle.dumps([utils.RequestType.CLIENT_JOIN.value, '', utils.CLIENT_LIST, '', name])
-    multicast_socket.sendto(message, utils.MULTICAST_GROUP_ADDRESS)
-
-    while True:
-        # try to get Server Leader
-        try:
-            data, address = multicast_socket.recvfrom(1024)
-            received_leader = pickle.loads(data)[0]
-            utils.leader = received_leader
-            return True
-
-        except socket.timeout:
-            return False
-

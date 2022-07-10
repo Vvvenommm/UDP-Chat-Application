@@ -125,7 +125,6 @@ def check_leader(election_message, my_left_neighbour):
     if existing_leader and ip_message != utils.myIP:
         utils.new_leader = ip_message
         utils.leader = ip_message
-        print('I am here')
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         message = pickle.dumps([utils.RequestType.NEW_LEADER.value, 'SERVER', 'NEW_LEADER'])
         s.sendto(message, (utils.leader, 10000))
