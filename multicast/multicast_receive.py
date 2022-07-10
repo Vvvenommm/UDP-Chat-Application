@@ -6,7 +6,7 @@ from resources import utils
 # inspiration source: https://python.tutorialink.com/not-seeing-udp-multicast-messages-from-another-device/
 # Create the socket
 multicast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
+multicast_socket.settimeout(1)
 
 #source: https://pymotw.com/3/socket/multicast.html
 def start_receiver():
