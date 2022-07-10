@@ -48,8 +48,6 @@ def start_receiver():
                         multicast_socket.sendto(b'JOINED', address)
                         utils.network_changed = True
                         utils.new_server = True
-                        print(f'New SERVER_LIST: {utils.SERVER_LIST}')
-                        print(f'New CLIENT_LIST: {utils.CLIENT_LIST}')
 
                 case utils.RequestType.CLIENT_JOIN.value:
                     print(f'[CLIENT]: {address} - {message.received_name} wants to join')

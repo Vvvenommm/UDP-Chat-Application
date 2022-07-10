@@ -119,7 +119,7 @@ def check_leader(election_message, my_left_neighbour):
         # send message to broadcast to the new leader so that it can forward to all clients that we have a new leader
         # to trigger a new connection with the multicast in the client to receive the newest leader
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        message = pickle.dumps(['NEW_LEADER', 'SERVER', 'NEW_LEADER'])
+        message = pickle.dumps([utils.RequestType.NEW_LEADER.value, 'SERVER', 'NEW_LEADER'])
         s.sendto(message, (utils.leader, 10000))
 
     if existing_leader and ip_message != utils.myIP:

@@ -27,7 +27,7 @@ CLIENT_LIST = []
 leader = ''
 new_leader = ''
 neighbour = ''
-leader_crashed = ''
+leader_crashed = False
 network_changed = False
 replica_crashed = False
 client_quit = False
@@ -39,7 +39,14 @@ class RequestType(enum.Enum):
     SERVER_JOIN = 'SERVER_JOIN'
     CLIENT_JOIN = 'CLIENT_JOIN'
     CLIENT_QUIT = 'CLIENT_QUIT'
+    QUIT_SERVER = 'QUIT_SERVER'
+    NEW_LEADER = 'NEW_LEADER'
 
+
+class MessageType(enum.Enum):
+    JOIN = 'JOIN'
+    CHAT = 'CHAT'
+    QUIT = 'QUIT'
 
 # Source: https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib?page=1&tab=scoredesc#tab-top
 # Get local IP-Address with all details with UDP

@@ -14,7 +14,7 @@ def send_messages():
     global client_socket
     while True:
         cmd_message = input("")
-        message = pickle.dumps(['CHAT', name, cmd_message])
+        message = pickle.dumps([utils.MessageType.CHAT.value, name, cmd_message])
         try:
             server = (str(utils.leader), 10000)
             client_socket.sendto(message, server)
@@ -31,7 +31,7 @@ def receive_messages():
         try:
             data, addr = client_socket.recvfrom(1024)
             received_message = data.decode(utils.UNICODE)
-            print(received_message)
+
             if received_message.endswith('SERVER HAS QUIT'):
                 print('\n[CLIENT] - Server leader is not available. Reconnecting with new server leader in 15 seconds.\n')
                 client_socket.close()
@@ -70,7 +70,7 @@ def establish_connection():
 
         client_socket.bind(('', port))
 
-        message = pickle.dumps(['JOIN', name, ''])
+        message = pickle.dumps([utils.MessageType.JOIN.value, name, ''])
         client_socket.sendto(message, leader_address)
     # if there is no Server available, exit the script
     else:
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("[CLIENT] - You left the chatroom")
         leader_server = (str(utils.leader), 10000)
-        message_to_send = pickle.dumps(['QUIT', name, 'Left the chatroom'])
+        message_to_send = pickle.dumps([utils.MessageType.QUIT.value, name, 'Left the chatroom'])
         client_socket.sendto(message_to_send, leader_server)
         #tell via Multicast that the client left the chatroom -> not directly necessary, broadcast_listener takes care
         #multicast_sender.multicast_socket.sendto(pickle.dumps([utils.RequestType.CLIENT_QUIT.value, '', '', '', '']), utils.MULTICAST_GROUP_ADDRESS)

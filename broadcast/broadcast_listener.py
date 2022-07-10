@@ -22,11 +22,10 @@ def start_broadcast_listener():
 
         # when Server quits forward message to clients
         if client_message.chat_type == 'QUIT_SERVER':
-            print('HERE QUIT SERVER')
             send_message_to_clients(client_message, addr)
 
+        # forward message that new leader joined to reconnect
         elif client_message.chat_type == 'NEW_LEADER':
-            print('HERE NEW LEADER')
             send_message_to_clients(client_message, addr)
 
         else:
@@ -47,11 +46,11 @@ def handle_incoming_messages(message=None, addr=None):
     # source: https://learnpython.com/blog/python-match-case-statement/
     # match case is a new functionality which came with python 3.10
     match message.chat_type:
-        case 'JOIN':
+        case utils.MessageType.JOIN.value:
             print(f'[CLIENT]: {addr} - {message.client_name} is connected with chatroom')
-        case 'CHAT':
+        case utils.MessageType.CHAT.value:
             print(get_formatted_message(addr, message.client_name, message.client_message))
-        case 'QUIT':
+        case utils.MessageType.QUIT.value:
             utils.CLIENT_LIST.remove(addr)
             print(get_formatted_message(addr, message.client_name, message.client_message))
             print(f'[CLIENT LIST]: {utils.CLIENT_LIST}')
