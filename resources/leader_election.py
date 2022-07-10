@@ -125,4 +125,5 @@ def check_leader(election_message, my_left_neighbour):
     if existing_leader and ip_message != utils.myIP:
         utils.new_leader = ip_message
         utils.leader = ip_message
+        print('I am here')
         print(f'[SERVER] - Leader {utils.leader}')
